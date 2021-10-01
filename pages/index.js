@@ -15,18 +15,12 @@ library.add(fas)
 
 function HomePage() {
 
-    // useEffect(()=>{
-    //   api.get('/CreateQuest/all');
-    // }, [])
-    const images = {
-        src: "../AboutUs.png",
-    }
 
     return (
         <div>
             <Head>
                 <title>
-                    MyQuestions
+                    BTV
                 </title>
             </Head>
 
@@ -115,51 +109,13 @@ function HomePage() {
             </style>
 
             <Jumbotron className="descr-top">
-                <h1 className="display-4 ml-4">Bem-vindos à plataforma MyQuestions!</h1>
+                <h1 className="display-4 ml-4">Bem-vindos à plataforma Bem-Te-Vi'!</h1>
                 <hr />
                 <Carocel />
 
 
                 <Container className="containerFlex">
-                    <div>
-                        <img
-                            src="/AboutUs.svg"
-                            alt="Sobre nós"
-                            width={631}
-                            height={431}
-                            id="aboutUs"
-                        />
-                    </div>
-                    <div>
-                        <h2> Sobre Nós </h2>
-                        <p> My Questions foi desenvolvido em prol do trabalho dos professores da rede FIEB, como uma ferramenta
-                            facilitando a criação de provas.
-                        </p>
-                    </div>
-                </Container>
-                <br />
-                <hr />
-                <br />
-                <Container className="containerFlex">
-                    <div>
-                        <h2>Funcionalidades</h2>
-                        <p>Monte sua prova da forma mais prática:</p>
-                        <ul>
-                            <li>Salve seu estilo de cabeçalho;</li>
-                            <li>Crie o tipo A e B clicando em apenas muito bom;</li>
-                            <li>Salve questões da sua matéria através da nossa feed online;</li>
-                            <li>Crie e salve questões você mesmo!!</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <img
-                            src="/Choose.svg"
-                            alt="Sobre nós"
-                            width={631}
-                            height={431}
-                            id="aboutUs"
-                        />
-                    </div>
+                   
                 </Container>
             </Jumbotron>
 
@@ -170,19 +126,19 @@ function HomePage() {
 
 export default HomePage;
 
-export async function getServerSideProps(ctx) {
+// export async function getServerSideProps(ctx) {
 
-    const { MQtoken } = parseCookies(ctx)
+//     const { MQtoken } = parseCookies(ctx)
 
-    if (!MQtoken) {
-        return {
-            redirect: {
-                destination: '/login',
-                permanent: false,
-            }
-        }
-    }
-    return {
-        props: {}
-    }
-}
+//     if (!MQtoken) {
+//         return {
+//             redirect: {
+//                 destination: '/login',
+//                 permanent: false,
+//             }
+//         }
+//     }
+//     return {
+//         props: {}
+//     }
+// }

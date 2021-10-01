@@ -33,10 +33,10 @@ const Menu = (props) => {
         <div>
             <style>
                 {`.menu-custom{
-                    background-color:#000;
+                    background-color:#fffc00;
                 }
                 .textcolor{
-                    color:#000;
+                    color:#000 !important;
                     text-decoration: none !important;
                 }
                 .bkdrop DropdownItem:hover{
@@ -48,10 +48,10 @@ const Menu = (props) => {
                 <Container>
                     <NavbarBrand href="/">
                         <Image
-                            src="/shortLogo.png"
+                            src="/Nova-Logo-Bem-te-vi.png"
                             alt="Picture of the author"
-                            width={188}
-                            height={55}
+                            width={76}
+                            height={64}
                         />
                     </NavbarBrand>
 
@@ -61,36 +61,14 @@ const Menu = (props) => {
                     <Collapse isOpen={isOpen} navbar>
                         <Nav className="mr-auto" navbar>
                             <NavItem>
-                                <NavLink href="/search">Pesquisar</NavLink>
+                                <NavLink href="/search" className="textcolor">Pesquisar</NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink href="/questions">Minhas Questões</NavLink>
+                                <NavLink href="/questions" className="textcolor">Minhas Questões</NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink href="/createQuestions">Criação</NavLink>
+                                <NavLink href="/createQuestions" className="textcolor">Criação</NavLink>
                             </NavItem>
-                            <UncontrolledDropdown nav inNavbar>
-                                <DropdownToggle nav caret>
-                                    Configurações
-                                </DropdownToggle>
-                                <DropdownMenu right>
-                                    <DropdownItem>
-                                        <NavItem>
-                                            <a href="/profile" className="textcolor">Perfil</a>
-                                        </NavItem>
-                                    </DropdownItem>
-                                    <DropdownItem>
-                                        <NavItem>
-                                            <a href="/saved" className="textcolor">Saved</a>
-                                        </NavItem>
-                                    </DropdownItem>
-                                    <DropdownItem>
-                                        <NavItem>
-                                            <a href="/notifications" className="textcolor">Notificações <Badge color="secondary">9</Badge></a>
-                                        </NavItem>
-                                    </DropdownItem>
-                                </DropdownMenu>
-                            </UncontrolledDropdown>
                         </Nav>
                         <Nav>
                             <NavItem>
