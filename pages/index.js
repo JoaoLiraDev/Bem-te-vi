@@ -1,5 +1,5 @@
 import Menu from '../components/topmenu';
-import Carocel from '../components/carousel';
+
 import Footer from '../components/footer';
 import React, { useEffect } from 'react';
 import Head from 'next/head';
@@ -10,12 +10,9 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 import { api } from '../services/api';
 import { parseCookies } from 'nookies'
 import { getAPIClient } from '../services/axios';
-
-library.add(fas)
+import { ScheduleComponent } from '@syncfusion/ej2-react-schedule';
 
 function HomePage() {
-
-
     return (
         <div>
             <Head>
@@ -109,13 +106,10 @@ function HomePage() {
             </style>
 
             <Jumbotron className="descr-top">
-                <h1 className="display-4 ml-4">Bem-vindos à plataforma Bem-Te-Vi'!</h1>
+                <h1 className="display-4 ml-4">Bem-vindos à plataforma Bem-Te-Vi!</h1>
                 <hr />
-                <Carocel />
-
-
                 <Container className="containerFlex">
-                   
+                  <ScheduleComponent></ScheduleComponent>
                 </Container>
             </Jumbotron>
 

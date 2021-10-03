@@ -48,10 +48,10 @@ const Menu = (props) => {
                 <Container>
                     <NavbarBrand href="/">
                         <Image
-                            src="/Nova-Logo-Bem-te-vi.png"
+                            src="/Logo Preta.png"
                             alt="Picture of the author"
-                            width={76}
-                            height={64}
+                            width={90}
+                            height={40}
                         />
                     </NavbarBrand>
 
