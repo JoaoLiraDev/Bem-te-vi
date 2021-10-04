@@ -61,13 +61,13 @@ const Menu = (props) => {
                     <Collapse isOpen={isOpen} navbar>
                         <Nav className="mr-auto" navbar>
                             <NavItem>
-                                <NavLink href="/search" className="textcolor">Pesquisar</NavLink>
+                                <NavLink href="/search" className="textcolor">Prontuários</NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink href="/questions" className="textcolor">Minhas Questões</NavLink>
+                                <NavLink href="/formularios" className="textcolor">Novo Prontuário</NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink href="/createQuestions" className="textcolor">Criação</NavLink>
+                                <NavLink href="/pacientes" className="textcolor">Cadastrar Paciente</NavLink>
                             </NavItem>
                         </Nav>
                         <Nav>
