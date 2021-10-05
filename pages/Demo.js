@@ -48,4 +48,5 @@ export default class Demo extends React.PureComponent {
       </Paper>
     );
   }
-}
+};
+

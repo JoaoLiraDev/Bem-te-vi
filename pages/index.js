@@ -1,7 +1,7 @@
 import Menu from '../components/topmenu';
 import { render } from "react-dom";
-import Footer from '../components/footer';
-import React, { useEffect } from 'react';
+import Smallfooter from "../components/smallfooter";
+import React, { useState , useEffect } from 'react';
 import Head from 'next/head';
 import GetServerSideProps from 'next';
 import { Button, Container, Jumbotron, Col, Row, Image } from 'reactstrap';
@@ -19,10 +19,25 @@ import {
   DateNavigator,
   Appointments,
   TodayButton,
+  AppointmentTooltip,
+  AppointmentForm,
 } from '@devexpress/dx-react-scheduler-material-ui';
-
+import { appointments } from '../data/appointments';
 
 function HomePage() {
+  var data = new Date();
+  var dia = String(data.getDate()).padStart(2, '0');
+  var mes = String(data.getMonth() + 1).padStart(2, '0');
+  var ano = data.getFullYear();
+  var dataAtual = ano + '-' + mes + '-' + dia;
+
+
+  const [state, setDate] = useState({
+    data: appointments,
+    currentDate: dataAtual,
+  });
+  const currentDateChange = (currentDate) => { setDate({ data: appointments, currentDate: currentDate }); };
+  
   return (
       <div>
           <Head>
@@ -93,7 +108,7 @@ function HomePage() {
                 top: 15%
                 }
                 .descr-top{
-                  background-color: #fff;
+                  background-color: rgba(184, 184, 180, 0.3);
                   margin-top: 2rem !important;
                 }
                 .form_meio{
@@ -114,35 +129,63 @@ function HomePage() {
                 }
               `}
           </style>
-
+          
+          
           <Jumbotron className="descr-top">
               <h1 className="display-4 ml-4">Bem-vindos à plataforma Bem-Te-Vi!</h1>
               <hr />
+              <input type="datetime-local" id="birthdaytime" name="birthdaytime"/>
               <Container className="containerFlex">
-                
+              <Paper>
+              <Scheduler
+                data={state.data}
+                height={1200}
+                locale={"PT-br"}
+              >
+                <ViewState
+                  currentDate={state.currentDate}
+                  onCurrentDateChange={currentDateChange}
+                />
+                <WeekView
+                  startDayHour={9}
+                  endDayHour={19}
+                />
+                <Toolbar />
+                <DateNavigator />
+                <TodayButton />
+                <Appointments />
+                <AppointmentTooltip
+                  showCloseButton
+                  showOpenButton
+                />
+                <AppointmentForm
+                  
+                />
+              </Scheduler>
+            </Paper>
               </Container>
           </Jumbotron>
 
-          <Footer />
+          <Smallfooter />
       </div>
   );
 };
 
 export default HomePage;
 
-// export async function getServerSideProps(ctx) {
+export async function getServerSideProps(ctx) {
 
-//     const { MQtoken } = parseCookies(ctx)
+    const { MQtoken } = parseCookies(ctx)
 
-//     if (!MQtoken) {
-//         return {
-//             redirect: {
-//                 destination: '/login',
-//                 permanent: false,
-//             }
-//         }
-//     }
-//     return {
-//         props: {}
-//     }
-// }
+    if (!MQtoken) {
+        return {
+            redirect: {
+                destination: '/login',
+                permanent: false,
+            }
+        }
+    }
+    return {
+        props: {}
+    }
+}

@@ -235,9 +235,8 @@ export const appointments = [
       location: 'Room 2',
     }, {
       title: 'Customer Workshop',
-      startDate: new Date(2018, 6, 1),
-      endDate: new Date(2018, 6, 2),
-      allDay: true,
+      startDate: '2021-10-04T10:14',
+      endDate: '2021-10-04T15:14',
       id: 39,
       location: 'Room 1',
     },
