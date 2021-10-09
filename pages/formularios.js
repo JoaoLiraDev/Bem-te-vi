@@ -75,7 +75,7 @@ function createQuestion() {
             const res = await fetch('http://localhost:8080/CreateProntuario/cadastroProntuario', {
                 method: 'POST',
                 body: JSON.stringify(pront),
-                headers: { 'Content-Type': 'application/json' }
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }
             });
 
             const responseEnv = await res.json();

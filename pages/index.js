@@ -1,16 +1,17 @@
+import React, { useState , useEffect } from 'react';
 import Menu from '../components/topmenu';
 import { render } from "react-dom";
 import Smallfooter from "../components/smallfooter";
-import React, { useState , useEffect } from 'react';
 import Head from 'next/head';
 import GetServerSideProps from 'next';
-import { Button, Container, Jumbotron, Col, Row, Image } from 'reactstrap';
+import { Alert, Button, Container, Jumbotron, Label, Col, Row, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { api } from '../services/api';
 import { parseCookies } from 'nookies'
 import { getAPIClient } from '../services/axios';
 import Paper from '@material-ui/core/Paper';
+import Router from 'next//router';
 import { ViewState } from '@devexpress/dx-react-scheduler';
 import {
   Scheduler,
@@ -19,25 +20,98 @@ import {
   DateNavigator,
   Appointments,
   TodayButton,
-  AppointmentTooltip,
-  AppointmentForm,
+  AppointmentTooltip
 } from '@devexpress/dx-react-scheduler-material-ui';
-import { appointments } from '../data/appointments';
 
-function HomePage() {
+import ModalForm from '../components/ModalForm'
+import ModalEdit from '../components/ModalEdit';
+function HomePage(obj) {
   var data = new Date();
   var dia = String(data.getDate()).padStart(2, '0');
   var mes = String(data.getMonth() + 1).padStart(2, '0');
   var ano = data.getFullYear();
   var dataAtual = ano + '-' + mes + '-' + dia;
+  
+  const [modal, setModal] = useState(false);
 
+  const toggle = () => setModal(!modal);
 
+  const dados_bd = obj.obj
   const [state, setDate] = useState({
-    data: appointments,
+    data: dados_bd,
     currentDate: dataAtual,
   });
-  const currentDateChange = (currentDate) => { setDate({ data: appointments, currentDate: currentDate }); };
+  const currentDateChange = (currentDate) => { setDate({ data: dados_bd, currentDate: currentDate }); };
   
+  const [response, setResponse] = useState({
+    formSave: false,
+    type: '',
+    message: ''
+});
+
+const { 'MQtoken': token } = parseCookies();
+
+async function excluirAgendamento(id){
+  try {
+      const res = await fetch("http://localhost:8080/CreateProntuario/delete_agendamento/" + id, {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }
+      });
+      const responseEnv = await res.json();
+
+      if (responseEnv.error) {
+          setResponse({
+              formSave: false,
+              type: 'error',
+              message: responseEnv.mensagem
+          });
+      } else {
+          setResponse({
+              formSave: false,
+              type: 'success',
+              message: responseEnv.mensagem
+          });
+      }
+  } catch (err) {
+      setResponse({
+          formSave: false,
+          type: 'error',
+          message: "Erro: Falha ao deletar questão!"
+      });
+  }
+
+  setTimeout(() => {
+      Router.reload()
+  }, 1500);
+};
+
+  const datasFormatadas = obj.obj_2
+ 
+  const agendamentos = datasFormatadas.map((obj_2) => <div className="zoom bordinha"> 
+    <Row>
+      <Col key={obj_2.title} className="col-md-5">
+        <Label>Nome: </Label><br/>
+        <Label>{obj_2.title}</Label>
+      </Col>
+      <Col key={obj_2.startDate} className="col-md-6">
+        <Label>Data Agendada: </Label><br/>
+        <Label>{obj_2.startDate}</Label>
+      </Col>
+      <img
+      src="/trash.svg"
+      alt="lixeira"
+      width={27}
+      height={27}
+      className="zoom"
+      id="lixeira"
+      onClick={() => {excluirAgendamento(obj_2.id)}}
+        />
+    </Row>
+  </div>
+  );
+
+
+
   return (
       <div>
           <Head>
@@ -49,6 +123,29 @@ function HomePage() {
           <Menu />
           <style>
               {`
+              .zoom {
+                transition: transform .2s;
+                }
+
+            .zoom:hover {
+                transform: scale(1.05);
+                }
+
+            .bordinha{
+                border-bottom-style: solid;
+                border-left-style: solid;
+                border-right-style: solid;
+                border-top-style: solid;
+                margin-top: 5px;
+                border-color: rgba(233, 109, 100, 0.9);
+                border-radius: 10px 10px 10px 10px;
+                padding-top: 6px;
+                padding-right: 6px;
+                padding-left: 6px;
+                padding-bottom: 6px;
+                max-width: 100%;
+                
+                }
               .main{
                   margin:0 !important;
               }
@@ -124,8 +221,7 @@ function HomePage() {
                 }
                 .containerFlex{
                     display: flex;
-                    margin-top: 100px;
-                    margin-bottom: 50px;
+                    margin-top: 50px;
                 }
               `}
           </style>
@@ -133,13 +229,37 @@ function HomePage() {
           
           <Jumbotron className="descr-top">
               <h1 className="display-4 ml-4">Bem-vindos à plataforma Bem-Te-Vi!</h1>
+             
               <hr />
-              <input type="datetime-local" id="birthdaytime" name="birthdaytime"/>
+              <Container>
+              <Row>
+                <Col className="col-md-10"></Col>
+                <Col className="col-md-1">
+                  <ModalForm/>
+                </Col>
+                <Col className="col-md-1">
+                <img src="/delete.svg" alt="lixeira" width={37} height={37} className="zoom" id="lixeira" onClick={toggle}/> 
+                  <Modal isOpen={modal} toggle={toggle} className="NovoAgendamento">
+                    <ModalHeader toggle={toggle}>Cancelar Agendamento</ModalHeader>
+                    {response.type === 'error' ? <Alert color="danger">{response.message}</Alert> : ""}
+                    {response.type === 'success' ? <Alert color="success">{response.message}</Alert> : ""}
+                        <ModalBody>
+                            {agendamentos}
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button color="secondary" onClick={toggle}>Cancelar</Button>
+                        </ModalFooter>
+                  </Modal>
+                </Col>
+
+                
+              </Row>
+              </Container>
               <Container className="containerFlex">
               <Paper>
               <Scheduler
                 data={state.data}
-                height={1200}
+                height={1090}
                 locale={"PT-br"}
               >
                 <ViewState
@@ -147,20 +267,19 @@ function HomePage() {
                   onCurrentDateChange={currentDateChange}
                 />
                 <WeekView
-                  startDayHour={9}
-                  endDayHour={19}
+                  startDayHour={7.50}
+                  endDayHour={17}
                 />
+                
                 <Toolbar />
                 <DateNavigator />
                 <TodayButton />
                 <Appointments />
                 <AppointmentTooltip
                   showCloseButton
-                  showOpenButton
-                />
-                <AppointmentForm
                   
                 />
+                
               </Scheduler>
             </Paper>
               </Container>
@@ -185,7 +304,23 @@ export async function getServerSideProps(ctx) {
             }
         }
     }
+    
+    const res = await fetch('http://localhost:8080/CreateProntuario/all', {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${MQtoken}` }
+    });
+    var data_return = await res.json();
+    
+    const res_data = await fetch('http://localhost:8080/CreateProntuario/allFormatado', {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${MQtoken}` }
+    });
+    var data_return_2 = await res_data.json();
+    
+    const obj = data_return.Query_result
+    const obj_2 = data_return_2.Query_result
+    console.log(obj)
     return {
-        props: {}
-    }
+        props: { obj, obj_2 }
+    };
 }
