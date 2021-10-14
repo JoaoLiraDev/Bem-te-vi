@@ -1,4 +1,4 @@
-import React, { useState , useEffect } from 'react';
+import React, { useState , useEffect, useContext } from 'react';
 import Menu from '../components/topmenu';
 import { render } from "react-dom";
 import Smallfooter from "../components/smallfooter";
@@ -25,7 +25,22 @@ import {
 
 import ModalForm from '../components/ModalForm'
 import ModalEdit from '../components/ModalEdit';
+import { AuthContext } from '../contexts/AuthContext';
+
+
 function HomePage(obj) {
+  const { user } = useContext(AuthContext);
+  var type_user = user.tipo_user
+  var btn;
+  if(type_user == 'Administrador'){
+      btn = <img src="/delete.svg" alt="lixeira" width={37} height={37} className="zoom" id="lixeira" onClick={toggle}/>
+  }else{
+      btn = <div></div>
+  }
+  
+
+
+
   var data = new Date();
   var dia = String(data.getDate()).padStart(2, '0');
   var mes = String(data.getMonth() + 1).padStart(2, '0');
@@ -238,7 +253,8 @@ async function excluirAgendamento(id){
                   <ModalForm/>
                 </Col>
                 <Col className="col-md-1">
-                <img src="/delete.svg" alt="lixeira" width={37} height={37} className="zoom" id="lixeira" onClick={toggle}/> 
+                {/* <img src="/delete.svg" alt="lixeira" width={37} height={37} className="zoom" id="lixeira" onClick={toggle}/>  */}
+                  {btn}
                   <Modal isOpen={modal} toggle={toggle} className="NovoAgendamento">
                     <ModalHeader toggle={toggle}>Cancelar Agendamento</ModalHeader>
                     {response.type === 'error' ? <Alert color="danger">{response.message}</Alert> : ""}

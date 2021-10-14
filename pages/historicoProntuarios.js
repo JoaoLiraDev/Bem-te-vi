@@ -9,11 +9,10 @@ import { parseCookies } from 'nookies'
 import GetServerSideProps from 'next';
 import { api } from '../services/api';
 import { getAPIClient } from "../services/axios";
+import Router from 'next//router';
 
-
-function historicoProntuario() {
- 
-    
+function historicoProntuario(obj) {
+  
     const [response, setResponse] = useState({
         formSave: false,
         type: '',
@@ -25,7 +24,90 @@ function historicoProntuario() {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const { 'MQtoken': token } = parseCookies();
     
+    function visualizarPront(id){
+        console.log(id)
+        localStorage.setItem("id_pront",JSON.stringify(id));
+        Router.push('/editarProntuario')
+    }
+    console.log(obj)
 
+    const dados = obj.obj
+    const cardsProntuarios = dados.map((obj) =><div className="zoom" key={obj.ID_PRONT_PSICOPEDAGOGIA}>                              
+                <div id="titulo">
+
+                    <Row>
+                        <Col className="col-md-11">
+                            
+                        </Col>
+                        
+                        <Col className="col-md-1">
+                            <img
+                                src="/edit_white.png"
+                                alt="Editar"
+                                width={25}
+                                height={25}
+                                className="zoom"
+                                id="Editar"
+                                style={{marginRight: "10px"}}
+                                onClick={() =>{visualizarPront(obj.ID_PRONT_PSICOPEDAGOGIA)}}
+                            />
+                            <img
+                                src="/delete_white.png"
+                                alt="lixeira"
+                                width={27}
+                                height={27}
+                                className="zoom"
+                                id="lixeira"
+                            />
+                        </Col>
+                    </Row>
+                </div>
+            <div className="bordinha">
+            <Container>
+                <Row>
+                    <Col className="col-sm-12">
+                        <br />
+                        <h3 className="disciplina">Psicopedagogia - Prontuário-{obj.ID_PRONT_PSICOPEDAGOGIA}</h3>
+                        <hr/>
+                    </Col>
+                </Row>
+                    <br />
+                <Row>
+                    <Col key={obj.RESPONSAVEL} className="col-md-3">
+                        <label>
+                            <h5><strong>Responsável:</strong></h5> {obj.RESPONSAVEL}
+                        </label>
+                    </Col>
+                    <Col key={obj.NOME_PACIENTE} className="col-md-3">
+                        <label>
+                        <h5><strong>Nome Paciente:</strong></h5> {obj.NOME_PACIENTE}
+                        </label>
+                    </Col>
+                    <Col key={obj.TRIMESTRE} className="col-md-3">
+                        <label>
+                            <h5><strong>Trimestre:</strong></h5> {obj.TRIMESTRE} 
+                        </label>
+                    </Col>
+                    <Col key={obj.DT_NASC} className="col-md-3">
+                        <label>
+                            <h5><strong>Data de Nascimento:</strong></h5> {obj.DT_NASC} 
+                        </label>
+                    </Col>
+                </Row>
+                <br/>
+                <Row>
+                <Col key={obj.OBSERVACAO} className="col-md-12">
+                    <label>
+                        <h5><strong>Observações:</strong></h5><br/> {obj.OBSERVACAO}
+                    </label>
+                </Col>
+                </Row>
+            </Container> 
+            </div>
+            <br />
+            </div>
+
+    )
     return (
         <div>
             <Head>
@@ -135,80 +217,7 @@ function historicoProntuario() {
                     `}
                 </style>
             <Container className="main">
-                  <div className="zoom">
-                    
-                        <div id="titulo">
-
-                            <Row>
-                                <Col className="col-md-11">
-                                    
-                                </Col>
-                                
-                                <Col className="col-md-1">
-                                    <img
-                                        src="/edit_white.png"
-                                        alt="Editar"
-                                        width={25}
-                                        height={25}
-                                        className="zoom"
-                                        id="Editar"
-                                        style={{marginRight: "10px"}}
-                                    />
-                                    <img
-                                        src="/delete_white.png"
-                                        alt="lixeira"
-                                        width={27}
-                                        height={27}
-                                        className="zoom"
-                                        id="lixeira"
-                                    />
-                                </Col>
-                            </Row>
-                        </div>
-                    <div className="bordinha">
-                    <Container>
-                        <Row>
-                            <Col className="col-sm-12">
-                                <br />
-                                <h3 className="disciplina">Psicopedagogia - Prontuário</h3>
-                                <hr/>
-                            </Col>
-                        </Row>
-                            <br />
-                        <Row>
-                            <Col className="col-md-3">
-                                <label>
-                                    <h5><strong>Responsável:</strong></h5> Willian A.
-                                </label>
-                            </Col>
-                            <Col className="col-md-3">
-                                <label>
-                                   <h5><strong>Nome Paciente:</strong></h5> João Lira
-                                </label>
-                            </Col>
-                            <Col className="col-md-3">
-                                <label>
-                                    <h5><strong>Trimestre:</strong></h5> 1° Trimestre 
-                                </label>
-                            </Col>
-                            <Col className="col-md-3">
-                                <label>
-                                    <h5><strong>Data de Nascimento:</strong></h5> 24/02/2003 
-                                </label>
-                            </Col>
-                        </Row>
-                        <br/>
-                        <Row>
-                        <Col className="col-md-12">
-                            <label>
-                                <h5><strong>Observações:</strong></h5><br/>Lorem ipsum pulvinar donec vestibulum congue dolor commodo nisl, curabitur felis eleifend accumsan et fermentum commodo maecenas, placerat ultricies placerat aliquet viverra sagittis odio.
-                            </label>
-                        </Col>
-                        </Row>
-                    </Container> 
-                    </div>
-                    <br />
-                </div>
+                  {cardsProntuarios}
             </Container>
             <Smallfooter />
         </div>
@@ -216,3 +225,30 @@ function historicoProntuario() {
 };
 
 export default historicoProntuario;
+
+
+export async function getServerSideProps(ctx) {
+
+    const { MQtoken } = parseCookies(ctx)
+
+    if (!MQtoken) {
+        return {
+            redirect: {
+                destination: '/login',
+                permanent: false,
+            }
+        }
+    }
+    
+    const res = await fetch('http://localhost:8080/CreateProntuario/prontuarios', {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${MQtoken}` }
+    });
+    var data_return = await res.json();
+    
+    const obj = data_return.Query_result
+   
+    return {
+        props: { obj }
+    };
+}

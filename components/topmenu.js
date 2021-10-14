@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Image from 'next/image'
 import Router from 'next//router';
 import {
@@ -18,8 +18,20 @@ import {
     Badge
 } from 'reactstrap';
 import { destroyCookie } from 'nookies';
+import { AuthContext } from '../contexts/AuthContext';
 
 const Menu = (props) => {
+    const { user } = useContext(AuthContext);
+    var type_user = user.tipo_user
+    var btn;
+    if(type_user == 'Administrador'){
+        btn = <NavLink href="/cadastraPaciente" className="textcolor">Gerenciar Usuários</NavLink>
+    }else{
+        btn = <div></div>
+    }
+    
+
+
     const [isOpen, setIsOpen] = useState(false);
 
     const toggle = () => setIsOpen(!isOpen);
@@ -67,7 +79,8 @@ const Menu = (props) => {
                                 <NavLink href="/formularios" className="textcolor">Novo Prontuário</NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink href="/cadastraPaciente" className="textcolor">Cadastrar Paciente</NavLink>
+                                {/* <NavLink href="/cadastraPaciente" className="textcolor">Cadastrar Paciente</NavLink> */}
+                                {btn}
                             </NavItem>
                         </Nav>
                         <Nav>

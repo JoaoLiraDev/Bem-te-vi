@@ -1,12 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, Row, Col, Label, Input, Alert } from 'reactstrap';
 import { useForm } from 'react-hook-form';
 import { parseCookies } from 'nookies';
 import Router from 'next//router';
-
+import { AuthContext } from '../contexts/AuthContext';
 
 function ModalForm(props){
-  
+
+    const { user } = useContext(AuthContext);
+    var type_user = user.tipo_user
+    var btn;
+    if(type_user == 'Administrador'){
+        btn = <img src="/add.svg" alt="add" width={37} height={37} className="zoom" id="add" onClick={toggle}/>
+    }else{
+        btn = <div></div>
+    }
   const [modal, setModal] = useState(false);
 
   const toggle = () => setModal(!modal);
@@ -76,7 +84,8 @@ const { 'MQtoken': token } = parseCookies();
     <div>
         
 
-        <img src="/add.svg" alt="add" width={37} height={37} className="zoom" id="add" onClick={toggle}/> 
+        {/* <img src="/add.svg" alt="add" width={37} height={37} className="zoom" id="add" onClick={toggle}/>  */}
+        {btn}
       <Modal isOpen={modal} toggle={toggle} className="NovoAgendamento">
       {response.type === 'error' ? <Alert color="danger">{response.message}</Alert> : ""}
         {response.type === 'success' ? <Alert color="success">{response.message}</Alert> : ""}
@@ -98,7 +107,7 @@ const { 'MQtoken': token } = parseCookies();
                 </Row>
                 <Row>
                     <Col className="col-md-10">
-                        <Label for="endDate">Inicio:</Label>
+                        <Label for="endDate">Fim:</Label>
                         <Input className="form-control mr-sm-2" type="datetime-local" name="endDate" id="endDate"{...register("endDate", { required: 'Insira uma data e hora final.'})} onChange={onChangeInput} />
                     </Col>
                 </Row>

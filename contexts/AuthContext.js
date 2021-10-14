@@ -15,6 +15,7 @@ export function AuthProvider({ children }) {
     first_name: '',
     last_name: '',
     email: '',
+    tipo_user:''
   });
 
   const isAuthenticated = !!user
@@ -38,6 +39,7 @@ export function AuthProvider({ children }) {
           first_name: response.user.FIRST_NAME,
           last_name: response.user.LAST_NAME,
           email: response.user.EMAIL,
+          tipo_user: response.user.SUBS_TYPE
         });
       })
     }
