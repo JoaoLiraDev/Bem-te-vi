@@ -1,17 +1,19 @@
+import React, { useState } from "react";
 import Menu from "../components/topmenu";
 import Smallfooter from "../components/smallfooter";
-import React, { useState } from "react";
 import Head from "next/head";
 import { Form, FormGroup, Label, Input, Container, Row, Col, Button, Alert } from 'reactstrap';
 import { data, readyException } from "jquery";
 import { useForm } from 'react-hook-form'
-import { setCookie ,parseCookies } from 'nookies'
+import { parseCookies } from 'nookies'
 import GetServerSideProps from 'next';
 import { api } from '../services/api';
 import { getAPIClient } from "../services/axios";
 import Router from 'next//router';
-import { dadosPront } from "../services/funcContextUser";
-function historicoProntuario(obj) {
+import { dadosProntName } from "../services/funcContextUser";
+
+
+function Paciente(obj) {
   
     const [response, setResponse] = useState({
         formSave: false,
@@ -24,55 +26,26 @@ function historicoProntuario(obj) {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const { 'MQtoken': token } = parseCookies();
     
-    function visualizarPront(id){
-        console.log(id)
-          dadosPront(id)
+    
+    function visualizarGrafico(name){
+        const nome = {
+            "name": `${name}`
+        }
+          dadosProntName(nome)
+          setTimeout(() => {
+            Router.push('/Demo')
+          }, 1100);
         
-        Router.push('/editarProntuario')
     }
+    
+
     console.log(obj)
 
     const dados = obj.obj
     const cardsProntuarios = dados.map((obj) =><div className="zoom" key={obj.ID_PRONT_PSICOPEDAGOGIA}>                              
-                <div id="titulo">
-
-                    <Row>
-                        <Col className="col-md-11">
-                            
-                        </Col>
-                        
-                        <Col className="col-md-1">
-                            <img
-                                src="/edit_white.png"
-                                alt="Editar"
-                                width={25}
-                                height={25}
-                                className="zoom"
-                                id="Editar"
-                                style={{marginRight: "10px"}}
-                                onClick={() =>{visualizarPront(obj.ID_PRONT_PSICOPEDAGOGIA)}}
-                            />
-                            <img
-                                src="/delete_white.png"
-                                alt="lixeira"
-                                width={27}
-                                height={27}
-                                className="zoom"
-                                id="lixeira"
-                            />
-                        </Col>
-                    </Row>
-                </div>
-            <div className="bordinha">
+                
+            <div className="bordinha" >
             <Container>
-                <Row>
-                    <Col className="col-sm-12">
-                        <br />
-                        <h3 className="disciplina">Psicopedagogia - Prontuário-{obj.ID_PRONT_PSICOPEDAGOGIA}</h3>
-                        <hr/>
-                    </Col>
-                </Row>
-                    <br />
                 <Row>
                     <Col key={obj.RESPONSAVEL} className="col-md-3">
                         <label>
@@ -84,25 +57,19 @@ function historicoProntuario(obj) {
                         <h5><strong>Nome Paciente:</strong></h5> {obj.NOME_PACIENTE}
                         </label>
                     </Col>
-                    <Col key={obj.TRIMESTRE} className="col-md-3">
-                        <label>
-                            <h5><strong>Trimestre:</strong></h5> {obj.TRIMESTRE} 
-                        </label>
-                    </Col>
+                    
                     <Col key={obj.DT_NASC} className="col-md-3">
                         <label>
                             <h5><strong>Data de Nascimento:</strong></h5> {obj.DT_NASC} 
                         </label>
                     </Col>
+                    <Col key={obj.NOME_PACIENTE} className="col-md-3">
+                        <label>
+                        <button type="button" onClick={() => {visualizarGrafico(obj.NOME_PACIENTE)}} className="btn btnAnimado" id="btnCriar" >Visualizar Progresso</button>
+                        </label>
+                    </Col>
                 </Row>
-                <br/>
-                <Row>
-                <Col key={obj.OBSERVACAO} className="col-md-12">
-                    <label>
-                        <h5><strong>Observações:</strong></h5><br/> {obj.OBSERVACAO}
-                    </label>
-                </Col>
-                </Row>
+               
             </Container> 
             </div>
             <br />
@@ -128,12 +95,18 @@ function historicoProntuario(obj) {
                         transform: scale(1.05);
                         }
         
-                    .bordinha{
+                    .bordinha{                        
+                        border-top-style: solid;
                         border-bottom-style: solid;
                         border-left-style: solid;
                         border-right-style: solid;
                         border-color: #000;
-                        border-radius: 0px 0px 10px 10px;
+                        border-radius: 10px 10px 10px 10px;
+                        padding-top: 6px;
+                        padding-right: 6px;
+                        padding-left: 6px;
+                        padding-bottom: 6px;
+                        max-width: 100%;
                         
                         }
                         
@@ -220,12 +193,22 @@ function historicoProntuario(obj) {
             <Container className="main">
                   {cardsProntuarios}
             </Container>
+            <br/>
+            <br/>
+            <br/>
+
+            <br/>
+            <br/>
+            <br/>
+
+            <br/>
+            <br/>
             <Smallfooter />
         </div>
     );
 };
 
-export default historicoProntuario;
+export default Paciente;
 
 
 export async function getServerSideProps(ctx) {

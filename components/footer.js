@@ -12,6 +12,9 @@ const Footer = () => {
                     padding-top: 10px;
                     padding-bottom: 10px;
                     margin-bottom: 0rem !important;
+                    position:absolute;
+                    bottom:0;
+                    width:100%;
                 }
                 `}
             </style>

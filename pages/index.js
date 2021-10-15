@@ -254,7 +254,7 @@ async function excluirAgendamento(id){
                 </Col>
                 <Col className="col-md-1">
                 {/* <img src="/delete.svg" alt="lixeira" width={37} height={37} className="zoom" id="lixeira" onClick={toggle}/>  */}
-                  {btn}
+                <div onClick={toggle}>{btn}</div>
                   <Modal isOpen={modal} toggle={toggle} className="NovoAgendamento">
                     <ModalHeader toggle={toggle}>Cancelar Agendamento</ModalHeader>
                     {response.type === 'error' ? <Alert color="danger">{response.message}</Alert> : ""}
@@ -271,7 +271,7 @@ async function excluirAgendamento(id){
                 
               </Row>
               </Container>
-              <Container className="containerFlex">
+              <br/>
               <Paper>
               <Scheduler
                 data={state.data}
@@ -298,7 +298,7 @@ async function excluirAgendamento(id){
                 
               </Scheduler>
             </Paper>
-              </Container>
+              
           </Jumbotron>
 
           <Smallfooter />

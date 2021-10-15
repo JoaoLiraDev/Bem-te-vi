@@ -85,7 +85,7 @@ const { 'MQtoken': token } = parseCookies();
         
 
         {/* <img src="/add.svg" alt="add" width={37} height={37} className="zoom" id="add" onClick={toggle}/>  */}
-        {btn}
+        <div onClick={toggle}>{btn}</div>
       <Modal isOpen={modal} toggle={toggle} className="NovoAgendamento">
       {response.type === 'error' ? <Alert color="danger">{response.message}</Alert> : ""}
         {response.type === 'success' ? <Alert color="success">{response.message}</Alert> : ""}

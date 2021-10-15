@@ -13,6 +13,9 @@ const Smallfooter = () => {
                     padding-bottom: 10px;
                     margin-bottom: 0rem !important;
                     
+                    bottom:0;
+                    width:100%;
+                    
                 }`}
             </style>
             

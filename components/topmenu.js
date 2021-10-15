@@ -79,6 +79,9 @@ const Menu = (props) => {
                                 <NavLink href="/formularios" className="textcolor">Novo Prontuário</NavLink>
                             </NavItem>
                             <NavItem>
+                                <NavLink href="/paciente" className="textcolor">Pacientes</NavLink>
+                            </NavItem>
+                            <NavItem>
                                 {/* <NavLink href="/cadastraPaciente" className="textcolor">Cadastrar Paciente</NavLink> */}
                                 {btn}
                             </NavItem>
