@@ -8,10 +8,8 @@ import {
   PieSeries,
   Title,
   Legend,
-  ArgumentAxis,
-  ValueAxis,
   Tooltip,
-} from '@devexpress/dx-react-chart-material-ui';
+} from '../node_modules/@devexpress/dx-react-chart-material-ui';
 import { EventTracker } from '@devexpress/dx-react-chart';
 import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, CardText, Row, Col, Container } from 'reactstrap';
 import classnames from 'classnames';
@@ -19,14 +17,19 @@ import { dadosProntName } from '../services/funcContextUser';
 import { parseCookies } from 'nookies';
 
 
+
 export default function graficoPaciente(props) {
-  console.log(props)
 
-  const data = props.trim_1
+  const data = JSON.parse(props.tri_1)
 
-  const data_2_tri = props.trim_2
+  const data_2_tri = JSON.parse(props.tri_2)
 
-  const data_3_tri = props.trim_3
+  const data_3_tri = JSON.parse(props.tri_3)
+
+  // const data = [{"country":"Desenvolvido","area":10},{"country":"Em Desenvolviento","area":6},{"country":"Não Desenvolvido","area":18},{"country":"Não Avaliado","area":2}]
+  // const data_2_tri = [{"country":"Desenvolvido","area":15},{"country":"Em Desenvolviento","area":9},{"country":"Não Desenvolvido","area":12},{"country":"Não Avaliado","area":0}]
+
+  // const data_3_tri = [{"country":"Desenvolvido","area":19},{"country":"Em Desenvolviento","area":3},{"country":"Não Desenvolvido","area":8},{"country":"Não Avaliado","area":5}]
 
   const [activeTab, setActiveTab] = useState('1');
 
@@ -86,7 +89,7 @@ export default function graficoPaciente(props) {
           <TabPane tabId="1">
             <Paper>
               <Chart
-                data={props.trim_1}
+                data={data}
               >
 
                 <PieSeries
@@ -103,27 +106,29 @@ export default function graficoPaciente(props) {
             </Paper>
           </TabPane>
           <TabPane tabId="2">
-            <Paper>
+          <Paper>
               <Chart
-                data={props.trim_2}
+                data={data_2_tri}
               >
-                <Title
-                  text="Evolução Paciente"
-                />
-                <Legend />
+
                 <PieSeries
                   valueField="area"
                   argumentField="country"
                 />
+                <Title
+                  text="Evolução Paciente"
+                />
+                <Legend />
                 <EventTracker />
                 <Tooltip />
               </Chart>
             </Paper>
+
           </TabPane>
           <TabPane tabId="3">
             <Paper>
               <Chart
-                data={props.trim_3}
+                data={data_3_tri}
               >
                 <Title
                   text="Evolução Paciente"
@@ -170,14 +175,17 @@ export async function getServerSideProps(ctx) {
     }
   }
   const { tri_1 } = parseCookies(ctx);
-  var trim_1 = JSON.parse(tri_1)
+  console.log(tri_1)
+  
   const { tri_2 } = parseCookies(ctx);
-  var trim_2 = JSON.parse(tri_2)
+  console.log(tri_2)
+  
   const { tri_3 } = parseCookies(ctx);
-  var trim_3 = JSON.parse(tri_3)
+  console.log(tri_3)
+  
 
   return {
-    props: { trim_1, trim_2, trim_3 }
+    props: { tri_1, tri_2, tri_3 }
   }
 }
 

@@ -11,34 +11,43 @@ import { api } from '../services/api';
 import { getAPIClient } from "../services/axios";
 
 
-function createQuestion() {
-    const [pront, setPront] = useState({
-            NOME_PACIENTE: '',
-            DT_NASC: '',
-            IDADE: '',
-            TRIMESTRE : '',
-            CEP: ''
+function cadastraPaciente() {
+    const [paciente, setPaciente] = useState({    
+        NOME_RESPONSAVEL: "",
+        DT_NASC_RESPONSAVEL: "",
+        RG_RESPONSAVEL: "",
+        CPF_RESPONSAVEL: "",
+        TEL_RESPONSAVEL: "",
+        EMAIL_RESPONSAVEL: "",
+        LOGRADOURO: "",
+        BAIRRO: "",
+        NOME_PACIENTE: "",
+        DT_NASC_PACIENTE: "",
+        RG_PACIENTE: "",
+        CPF_PACIENTE: "",
+        TEL_PACIENTE: "",
+        EMAIL_PACIENTE: "",
     });
-    
+    console.log(paciente)
     const [response, setResponse] = useState({
         formSave: false,
         type: '',
         message: ''
     });
 
-    const onChangeInput = e => setPront({ ...pront, [e.target.name]: e.target.value });
+    const onChangeInput = e => setPaciente({ ...paciente, [e.target.name]: e.target.value });
 
     const { register, handleSubmit, formState: { errors } } = useForm();
     const { 'MQtoken': token } = parseCookies();
 
-    const sendQuest = async e => {
+     async function sendQuest(){
 
         setResponse({ formSave: true });
 
         try {
-            const res = await fetch('http://localhost:8080/CreateProntuario/cadastroProntuario', {
+            const res = await fetch('http://localhost:8080/Usuarios/cadastroPaciente', {
                 method: 'POST',
-                body: JSON.stringify(pront),
+                body: JSON.stringify(paciente),
                 headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }
             });
 
@@ -51,18 +60,32 @@ function createQuestion() {
                     type: 'error',
                     message: responseEnv.mensagem
                 });
+                setTimeout(() => {
+                    setResponse({
+                        formSave: false,
+                        type: '',
+                        message: ''
+                    });
+                }, 1500);
             } else {
                 setResponse({
                     formSave: false,
                     type: 'success',
                     message: responseEnv.mensagem
                 });
+                setTimeout(() => {
+                    setResponse({
+                        formSave: false,
+                        type: '',
+                        message: ''
+                    });
+                }, 1500);
             }
         } catch (err) {
             setResponse({
                 formSave: false,
                 type: 'error',
-                message: "Erro: Falha ao cadastrar questão!"
+                message: "Erro: Falha ao cadastrar paciente!"
             });
         }
 
@@ -143,34 +166,7 @@ function createQuestion() {
                     {response.type === 'error' ? <Alert color="danger">{response.message}</Alert> : ""}
                     {response.type === 'success' ? <Alert color="success">{response.message}</Alert> : ""}
 
-                    <h4>Dados do Profissional</h4>
-                    <hr />
-                    <Row>
-                        <Col className="col-md-4">
-                            <FormGroup>
-                                <Label for="NOME_DOC">Nome:</Label>
-                                <Input type="text" name="NOME_DOC" id="NOME_DOC" placeholder="Doutor(a) responsável:" {...register("NOME_DOC", { required: 'Insira um nome' })} onChange={onChangeInput} />
-                            </FormGroup>
-                        </Col>
-                        <Col className="col-md-3">
-                            <FormGroup>
-                                <Label for="crp">CRP:</Label>
-                                <Input type="text" name="crp" id="crp" {...register("CRP", { required: 'Insira uma Data' })} onChange={onChangeInput} />
-                            </FormGroup>
-                        </Col>
-                        <Col className="col-md-3">
-                            <FormGroup>
-                                <Label for="especialidade">Especialidade:</Label>
-                                <Input type="select" name="especialidade" id="especialidade" onChange={onChangeInput}>
-                                    <option>Selecione uma especialidade</option>
-                                    <option>Psicopedagogia</option>
-                                    
-                                </Input>                            
-                            </FormGroup>
-                        </Col>
-                        
-                    </Row>
-                    <br/>
+                    
                     <h4>Dados do responsável</h4>
                     <hr />
                     <Row>
@@ -183,70 +179,49 @@ function createQuestion() {
                         <Col className="col-md-2">
                             <FormGroup>
                                 <Label for="DT_NASC_RESPONSAVEL">Data de Nascimento:</Label>
-                                <Input type="date" name="DT_NASC" id="DT_NASC" {...register("DT_NASC", { required: 'Insira uma Data' })} onChange={onChangeInput} />
+                                <Input type="date" name="DT_NASC_RESPONSAVEL" id="DT_NASC_RESPONSAVEL" {...register("DT_NASC_RESPONSAVEL", { required: 'Insira uma Data' })} onChange={onChangeInput} />
                             </FormGroup>
                         </Col>
                         
                         <Col className="col-md-3">
                             <FormGroup>
-                                <Label for="rg">RG:</Label>
-                                    <Input type="text" name="rg" id="rg" placeholder="RG:" {...register("rg")} onChange={onChangeInput} />
+                                <Label for="RG_RESPONSAVEL">RG:</Label>
+                                    <Input type="text" name="RG_RESPONSAVEL" id="RG_RESPONSAVEL" placeholder="RG:" {...register("RG_RESPONSAVEL")} onChange={onChangeInput} />
                                 
                             </FormGroup>
                         </Col>
                         <Col className="col-md-3">
                             <FormGroup>
-                                <Label for="CPF">CPF:</Label>
-                                <Input type="text" name="CPF" id="CPF" placeholder="CPF:" {...register("CPF", { required: 'Insira o nome do responsável' })} onChange={onChangeInput} />
+                                <Label for="CPF_RESPONSAVEL">CPF:</Label>
+                                <Input type="text" name="CPF_RESPONSAVEL" id="CPF_RESPONSAVEL" placeholder="CPF:" {...register("CPF_RESPONSAVEL", { required: 'Insira o nome do responsável' })} onChange={onChangeInput} />
                             </FormGroup>
                         </Col>
                     </Row>
                     <Row>
                         <Col className="col-md-3">
                             <FormGroup>
-                                <Label for="Telefone">Telefone para contato:</Label>
-                                <Input type="text" name="Telefone" id="Telefone" placeholder="(xx) xxxx-xxxx" {...register("Telefone")} onChange={onChangeInput} />
+                                <Label for="TEL_RESPONSAVEL">Telefone para contato:</Label>
+                                <Input type="text" name="TEL_RESPONSAVEL" id="TEL_RESPONSAVEL" placeholder="(xx) xxxx-xxxx" {...register("TEL_RESPONSAVEL")} onChange={onChangeInput} />
                             </FormGroup>
                         </Col>
                         <Col className="col-md-4">
                             <FormGroup>
-                                <Label for="Email">Email:</Label>
-                                <Input type="email" name="Email" id="Email" placeholder="Email:" {...register("Email")} onChange={onChangeInput} />
+                                <Label for="EMAIL_RESPONSAVEL">Email:</Label>
+                                <Input type="email" name="EMAIL_RESPONSAVEL" id="EMAIL_RESPONSAVEL" placeholder="Email:" {...register("EMAIL_RESPONSAVEL")} onChange={onChangeInput} />
                             </FormGroup>
                         </Col>
                         <Col className="col-md-2">
                             <FormGroup>
-                                <Label for="cep">CEP:</Label>
-                                <Input type="text" name="cep" id="cep" value="" placeholder="CEP:" {...register("cep")} onChange={onChangeInput}  />
+                                <Label for="LOGRADOURO">Endereço:</Label>
+                                <Input type="text" name="LOGRADOURO" id="LOGRADOURO" placeholder="Logradouro:" {...register("LOGRADOURO")} onChange={onChangeInput} />
                             </FormGroup>
                         </Col>
                         <Col className="col-md-2">
-                            <Label for="uf">UF:</Label>
-                            <Input type="text" name="uf" id="uf" placeholder="UF:" {...register("uf")} onChange={onChangeInput} />
+                            <Label for="bairro">BAIRRO:</Label>
+                            <Input type="text" name="BAIRRO" id="BAIRRO" placeholder="Bairro:" {...register("BAIRRO")} onChange={onChangeInput} />
                         </Col>
                     </Row>
-                    <Row>
-                        <Col className="col-md-3">
-                            <Label for="logradouro">Logradouro:</Label>
-                            <Input type="text" name="logradouro" id="logradouro" placeholder="Logradouro:" {...register("logradouro")} onChange={onChangeInput} />
-                        </Col>
-
-                        <Col className="col-md-3">
-                            <Label for="complemento">Complemento:</Label>
-                            <Input type="text" name="complemento" id="complemento" placeholder="Complemento:" {...register("complemento")} onChange={onChangeInput} />
-                        </Col>
-
-                        <Col className="col-md-3">
-                            <Label for="bairro">Bairro:</Label>
-                            <Input type="text" name="bairro" id="bairro" placeholder="Bairro:" {...register("bairro")} onChange={onChangeInput} />
-                        </Col>
-
-                        <Col className="col-md-3">
-                            <Label for="cidade">Cidade:</Label>
-                            <Input type="text" name="cidade" id="cidade" placeholder="Cidade:" {...register("cidade")} onChange={onChangeInput} />
-                            
-                        </Col>
-                    </Row>
+                    
                     <br/>
                     <h4>Dados do paciente</h4>
                     <hr />
@@ -266,62 +241,35 @@ function createQuestion() {
                         
                         <Col className="col-md-3">
                             <FormGroup>
-                                <Label for="rg">RG:</Label>
-                                    <Input type="text" name="rg" id="rg" placeholder="RG:" {...register("rg")} onChange={onChangeInput} />
+                                <Label for="RG_PACIENTE">RG:</Label>
+                                    <Input type="text" name="RG_PACIENTE" id="RG_PACIENTE" placeholder="RG:" {...register("RG_PACIENTE")} onChange={onChangeInput} />
                                 
                             </FormGroup>
                         </Col>
                         <Col className="col-md-3">
                             <FormGroup>
-                                <Label for="CPF">CPF:</Label>
-                                <Input type="text" name="CPF" id="CPF" placeholder="CPF:" {...register("CPF", { required: 'Insira o nome do responsável' })} onChange={onChangeInput} />
+                                <Label for="CPF_PACIENTE">CPF:</Label>
+                                <Input type="text" name="CPF_PACIENTE" id="CPF_PACIENTE" placeholder="CPF:" {...register("CPF_PACIENTE", { required: 'Insira o nome do responsável' })} onChange={onChangeInput} />
                             </FormGroup>
                         </Col>
                     </Row>
                     <Row>
                         <Col className="col-md-3">
                             <FormGroup>
-                                <Label for="Telefone">Telefone para contato:</Label>
-                                <Input type="text" name="Telefone" id="Telefone" placeholder="(xx) xxxx-xxxx" {...register("Telefone")} onChange={onChangeInput} />
+                                <Label for="TEL_PACIENTE">Telefone para contato:</Label>
+                                <Input type="text" name="TEL_PACIENTE" id="TEL_PACIENTE" placeholder="(xx) xxxx-xxxx" {...register("TEL_PACIENTE")} onChange={onChangeInput} />
                             </FormGroup>
                         </Col>
                         <Col className="col-md-4">
                             <FormGroup>
-                                <Label for="Email">Email:</Label>
-                                <Input type="email" name="Email" id="Email" placeholder="Email:" {...register("Email")} onChange={onChangeInput} />
+                                <Label for="EMAIL_PACIENTE">Email:</Label>
+                                <Input type="email" name="EMAIL_PACIENTE" id="EMAIL_PACIENTE" placeholder="Email:" {...register("EMAIL_PACIENTE")} onChange={onChangeInput} />
                             </FormGroup>
-                        </Col>
-                        <Col className="col-md-2">
-                            <FormGroup>
-                                <Label for="cep">CEP:</Label>
-                                <Input type="text" name="cep" id="cep" placeholder="CEP:" {...register("cep")} onChange={onChangeInput} />
-                            </FormGroup>
-                        </Col>
-                        <Col className="col-md-2">
-                            <Label for="uf">UF:</Label>
-                            <Input type="text" name="uf" id="uf" placeholder="UF:" {...register("uf")} onChange={onChangeInput} />
                         </Col>
                     </Row>
                     <Row>
-                        <Col className="col-md-3">
-                            <Label for="logradouro">Logradouro:</Label>
-                            <Input type="text" name="logradouro" id="logradouro" placeholder="Logradouro:" {...register("logradouro")} onChange={onChangeInput} />
-                        </Col>
-
-                        <Col className="col-md-3">
-                            <Label for="complemento">Complemento:</Label>
-                            <Input type="text" name="complemento" id="complemento" placeholder="Complemento:" {...register("complemento")} onChange={onChangeInput} />
-                        </Col>
-
-                        <Col className="col-md-3">
-                            <Label for="bairro">Bairro:</Label>
-                            <Input type="text" name="bairro" id="bairro" placeholder="Bairro:" {...register("bairro")} onChange={onChangeInput} />
-                        </Col>
-
-                        <Col className="col-md-3">
-                            <Label for="cidade">Cidade:</Label>
-                            <Input type="text" name="cidade" id="cidade" placeholder="Cidade:" {...register("cidade")} onChange={onChangeInput} />
-                            
+                        <Col className="col-md-4 ">
+                        <button type="button" onClick={() => {sendQuest()}} className="btn btnAnimado" id="btnCriar" >Cadastrar Paciente</button>
                         </Col>
                     </Row>
                 </Form>
@@ -331,21 +279,21 @@ function createQuestion() {
     );
 };
 
-export default createQuestion;
+export default cadastraPaciente;
 
-// export async function getServerSideProps(ctx) {
-//     const APIClient = getAPIClient(ctx)
-//     const { MQtoken } = parseCookies(ctx)
+export async function getServerSideProps(ctx) {
+    const APIClient = getAPIClient(ctx)
+    const { MQtoken } = parseCookies(ctx)
 
-//     if (!MQtoken) {
-//         return {
-//             redirect: {
-//                 destination: '/login',
-//                 permanent: false,
-//             }
-//         }
-//     }
-//     return {
-//         props: {}
-//     }
-// }
+    if (!MQtoken) {
+        return {
+            redirect: {
+                destination: '/login',
+                permanent: false,
+            }
+        }
+    }
+    return {
+        props: {}
+    }
+}

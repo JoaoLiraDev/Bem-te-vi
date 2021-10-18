@@ -11,7 +11,7 @@ import { api } from '../services/api';
 import { getAPIClient } from "../services/axios";
 
 
-function createQuestion() {
+function criarProntuarios() {
     const [pront, setPront] = useState({
             NOME_PACIENTE: '',
             DT_NASC: '',
@@ -93,6 +93,9 @@ function createQuestion() {
                     type: 'success',
                     message: responseEnv.mensagem
                 });
+                setTimeout(() => {
+                    Router.push('/historicoProntuarios')
+                }, 1500);
             }
         } catch (err) {
             setResponse({
@@ -727,7 +730,7 @@ function createQuestion() {
     );
 };
 
-export default createQuestion;
+export default criarProntuarios;
 
 // export async function getServerSideProps(ctx) {
 //     const APIClient = getAPIClient(ctx)

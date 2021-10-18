@@ -39,17 +39,16 @@ function Paciente(obj) {
     }
     
 
-    console.log(obj)
-
     const dados = obj.obj
-    const cardsProntuarios = dados.map((obj) =><div className="zoom" key={obj.ID_PRONT_PSICOPEDAGOGIA}>                              
+
+    const cardsProntuarios = dados.map((obj) =><div className="zoom" key={obj.ID_PACIENTE}>                              
                 
             <div className="bordinha" >
             <Container>
                 <Row>
-                    <Col key={obj.RESPONSAVEL} className="col-md-3">
+                    <Col key={obj.NOME_RESPONSAVEL} className="col-md-3">
                         <label>
-                            <h5><strong>Responsável:</strong></h5> {obj.RESPONSAVEL}
+                            <h5><strong>Responsável:</strong></h5> {obj.NOME_RESPONSAVEL}
                         </label>
                     </Col>
                     <Col key={obj.NOME_PACIENTE} className="col-md-3">
@@ -58,9 +57,9 @@ function Paciente(obj) {
                         </label>
                     </Col>
                     
-                    <Col key={obj.DT_NASC} className="col-md-3">
+                    <Col key={obj.CPF_PACIENTE} className="col-md-3">
                         <label>
-                            <h5><strong>Data de Nascimento:</strong></h5> {obj.DT_NASC} 
+                            <h5><strong>CPF:</strong></h5> {obj.CPF_PACIENTE} 
                         </label>
                     </Col>
                     <Col key={obj.NOME_PACIENTE} className="col-md-3">
@@ -193,17 +192,7 @@ function Paciente(obj) {
             <Container className="main">
                   {cardsProntuarios}
             </Container>
-            <br/>
-            <br/>
-            <br/>
-
-            <br/>
-            <br/>
-            <br/>
-
-            <br/>
-            <br/>
-            <Smallfooter />
+           
         </div>
     );
 };
@@ -224,12 +213,12 @@ export async function getServerSideProps(ctx) {
         }
     }
     
-    const res = await fetch('http://localhost:8080/CreateProntuario/prontuarios', {
+    const res = await fetch('http://localhost:8080/Usuarios/pacientes', {
         method: 'GET',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${MQtoken}` }
     });
     var data_return = await res.json();
-    
+
     const obj = data_return.Query_result
    
     return {

@@ -25,7 +25,7 @@ const Menu = (props) => {
     var type_user = user.tipo_user
     var btn;
     if(type_user == 'Administrador'){
-        btn = <NavLink href="/cadastraPaciente" className="textcolor">Gerenciar Usuários</NavLink>
+        btn = <NavLink href="/gerenciarUsuarios" className="textcolor">Gerenciar Usuários</NavLink>
     }else{
         btn = <div></div>
     }
@@ -80,6 +80,10 @@ const Menu = (props) => {
                             </NavItem>
                             <NavItem>
                                 <NavLink href="/paciente" className="textcolor">Pacientes</NavLink>
+                            </NavItem>
+                            <NavItem>
+                                <NavLink href="/cadastraPaciente" className="textcolor">Cadastrar Paciente</NavLink>
+
                             </NavItem>
                             <NavItem>
                                 {/* <NavLink href="/cadastraPaciente" className="textcolor">Cadastrar Paciente</NavLink> */}
