@@ -9,7 +9,7 @@ import { parseCookies } from 'nookies'
 import GetServerSideProps from 'next';
 import { api } from '../services/api';
 import { getAPIClient } from "../services/axios";
-
+import InputMask from 'react-input-mask';
 
 function cadastraPaciente() {
     const [paciente, setPaciente] = useState({    
@@ -186,14 +186,13 @@ function cadastraPaciente() {
                         <Col className="col-md-3">
                             <FormGroup>
                                 <Label for="RG_RESPONSAVEL">RG:</Label>
-                                    <Input type="text" name="RG_RESPONSAVEL" id="RG_RESPONSAVEL" placeholder="RG:" {...register("RG_RESPONSAVEL")} onChange={onChangeInput} />
-                                
+                                    <InputMask mask="99.999.999-9" className="form-control"  name="RG_RESPONSAVEL" id="RG_RESPONSAVEL" placeholder="RG:" {...register("RG_RESPONSAVEL")} onChange={onChangeInput}/>
                             </FormGroup>
                         </Col>
                         <Col className="col-md-3">
                             <FormGroup>
                                 <Label for="CPF_RESPONSAVEL">CPF:</Label>
-                                <Input type="text" name="CPF_RESPONSAVEL" id="CPF_RESPONSAVEL" placeholder="CPF:" {...register("CPF_RESPONSAVEL", { required: 'Insira o nome do responsável' })} onChange={onChangeInput} />
+                                <InputMask mask="999.999.999-99" className="form-control"  name="CPF_RESPONSAVEL" id="CPF_RESPONSAVEL" placeholder="CPF:" {...register("CPF_RESPONSAVEL", { required: 'Insira o nome do responsável' })} onChange={onChangeInput}  />
                             </FormGroup>
                         </Col>
                     </Row>
@@ -201,7 +200,7 @@ function cadastraPaciente() {
                         <Col className="col-md-3">
                             <FormGroup>
                                 <Label for="TEL_RESPONSAVEL">Telefone para contato:</Label>
-                                <Input type="text" name="TEL_RESPONSAVEL" id="TEL_RESPONSAVEL" placeholder="(xx) xxxx-xxxx" {...register("TEL_RESPONSAVEL")} onChange={onChangeInput} />
+                                <InputMask mask="(99)99999-9999"  className="form-control" name="TEL_RESPONSAVEL" id="TEL_RESPONSAVEL" placeholder="Celular:" {...register("TEL_RESPONSAVEL")} onChange={onChangeInput}  />
                             </FormGroup>
                         </Col>
                         <Col className="col-md-4">
@@ -223,7 +222,7 @@ function cadastraPaciente() {
                     </Row>
                     
                     <br/>
-                    <h4>Dados do paciente</h4>
+                    <h4>Dados do assistido</h4>
                     <hr />
                     <Row>
                         <Col className="col-md-3">
@@ -242,14 +241,13 @@ function cadastraPaciente() {
                         <Col className="col-md-3">
                             <FormGroup>
                                 <Label for="RG_PACIENTE">RG:</Label>
-                                    <Input type="text" name="RG_PACIENTE" id="RG_PACIENTE" placeholder="RG:" {...register("RG_PACIENTE")} onChange={onChangeInput} />
-                                
+                                    <InputMask mask="99.999.999-9" className="form-control"  name="RG_PACIENTE" id="RG_PACIENTE" placeholder="RG:" {...register("RG_PACIENTE")} onChange={onChangeInput}/>
                             </FormGroup>
                         </Col>
                         <Col className="col-md-3">
                             <FormGroup>
                                 <Label for="CPF_PACIENTE">CPF:</Label>
-                                <Input type="text" name="CPF_PACIENTE" id="CPF_PACIENTE" placeholder="CPF:" {...register("CPF_PACIENTE", { required: 'Insira o nome do responsável' })} onChange={onChangeInput} />
+                                <InputMask mask="999.999.999-99" className="form-control"  name="CPF_PACIENTE" id="CPF_PACIENTE" placeholder="CPF:" {...register("CPF_PACIENTE")} onChange={onChangeInput}  />
                             </FormGroup>
                         </Col>
                     </Row>
@@ -257,7 +255,7 @@ function cadastraPaciente() {
                         <Col className="col-md-3">
                             <FormGroup>
                                 <Label for="TEL_PACIENTE">Telefone para contato:</Label>
-                                <Input type="text" name="TEL_PACIENTE" id="TEL_PACIENTE" placeholder="(xx) xxxx-xxxx" {...register("TEL_PACIENTE")} onChange={onChangeInput} />
+                                <InputMask mask="(99)99999-9999"  className="form-control" name="TEL_PACIENTE" id="TEL_PACIENTE" placeholder="Celular:" {...register("TEL_PACIENTE")} onChange={onChangeInput}  />
                             </FormGroup>
                         </Col>
                         <Col className="col-md-4">

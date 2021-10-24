@@ -75,9 +75,13 @@ export function AuthProvider({ children }) {
         });
 
         setCookie(undefined, 'MQtoken', responseEnv.token, {
-          maxAge: 60 * 60 * 5 //5_horas,
+          maxAge: 60 * 60 * 7 //5_horas,
         });
 
+        setCookie(undefined, 'email_user', login.email, {
+          maxAge: 60 * 60 * 7 //5_horas,
+        });
+        
         setUser({
           id_user: responseEnv.user.id_user,
           username: responseEnv.user.username,

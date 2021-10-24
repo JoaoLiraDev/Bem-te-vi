@@ -265,8 +265,6 @@ function Paciente(props) {
                 <br/>
                   {cardsUsuarios}
             </Container>
-            
-            <Smallfooter />
         </div>
     );
 };

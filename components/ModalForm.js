@@ -10,8 +10,8 @@ function ModalForm(props){
     const { user } = useContext(AuthContext);
     var type_user = user.tipo_user
     var btn;
-    if(type_user == 'Administrador'){
-        btn = <img src="/add.svg" alt="add" width={37} height={37} className="zoom" id="add" onClick={toggle}/>
+    if(type_user == 'Administrador' || type_user == 'Funcionario'){
+        btn = <img src="/add.svg" alt="add" width={37} height={37} className="zoom" id="add"/>
     }else{
         btn = <div></div>
     }

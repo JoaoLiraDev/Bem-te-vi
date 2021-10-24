@@ -1,5 +1,6 @@
 import React, { useState , useEffect, useContext } from 'react';
 import Menu from '../components/topmenu';
+import MenuResponsavel from '../components/topmenuResp';
 import { render } from "react-dom";
 import Smallfooter from "../components/smallfooter";
 import Head from 'next/head';
@@ -27,20 +28,29 @@ import ModalForm from '../components/ModalForm'
 import ModalEdit from '../components/ModalEdit';
 import { AuthContext } from '../contexts/AuthContext';
 
-
 function HomePage(obj) {
+
+  
   const { user } = useContext(AuthContext);
+  console.log(user)
   var type_user = user.tipo_user
   var btn;
-  if(type_user == 'Administrador'){
-      btn = <img src="/delete.svg" alt="lixeira" width={37} height={37} className="zoom" id="lixeira" onClick={toggle}/>
+  if(type_user == 'Administrador' || type_user == 'Funcionario'){
+      
+      btn = <img src="/delete.svg" alt="lixeira" width={37} height={37} className="zoom" id="lixeira"/>
   }else{
       btn = <div></div>
   }
   
-
-
-
+  var type_user = user.tipo_user
+  var topMenuCondicional;
+  if(type_user == 'Administrador' || type_user == 'Funcionario'){
+      topMenuCondicional = <Menu />
+  }else{
+      topMenuCondicional = <MenuResponsavel/>
+  }
+ 
+  
   var data = new Date();
   var dia = String(data.getDate()).padStart(2, '0');
   var mes = String(data.getMonth() + 1).padStart(2, '0');
@@ -99,6 +109,7 @@ async function excluirAgendamento(id){
       Router.reload()
   }, 1500);
 };
+  
 
   const datasFormatadas = obj.obj_2
  
@@ -125,7 +136,7 @@ async function excluirAgendamento(id){
   </div>
   );
 
-
+  
 
   return (
       <div>
@@ -135,7 +146,8 @@ async function excluirAgendamento(id){
               </title>
           </Head>
 
-          <Menu />
+          {topMenuCondicional}
+          
           <style>
               {`
               .zoom {
@@ -320,11 +332,16 @@ export async function getServerSideProps(ctx) {
             }
         }
     }
+
+    //http://localhost:8080/CreateProntuario/paciente
     
+
+
     const res = await fetch('http://localhost:8080/CreateProntuario/all', {
         method: 'GET',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${MQtoken}` }
     });
+
     var data_return = await res.json();
     
     const res_data = await fetch('http://localhost:8080/CreateProntuario/allFormatado', {
@@ -335,7 +352,7 @@ export async function getServerSideProps(ctx) {
     
     const obj = data_return.Query_result
     const obj_2 = data_return_2.Query_result
-    console.log(obj)
+    
     return {
         props: { obj, obj_2 }
     };

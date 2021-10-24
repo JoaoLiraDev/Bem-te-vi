@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import Image from 'next/image'
 import Router from 'next//router';
 import {
@@ -19,17 +19,48 @@ import {
 } from 'reactstrap';
 import { destroyCookie } from 'nookies';
 import { AuthContext } from '../contexts/AuthContext';
+import { dadosProntName } from "../services/funcContextUser";
+import {dadosPaciente} from '../services/funcContextUser';
 
-const Menu = (props) => {
+const MenuResponsavel = (props) => {
+
+
     const { user } = useContext(AuthContext);
-    var type_user = user.tipo_user
-    var btn;
-    if(type_user == 'Administrador'){
-        btn = <NavLink href="/gerenciarUsuarios" className="textcolor">Gerenciar Usuários</NavLink>
-    }else{
-        btn = <div></div>
-    }
     
+    
+    const [paciente, setPaciente] = useState({
+        nomePaciente: ''
+    })
+ 
+    const email = user.email
+
+    useEffect(() => {
+        
+            dadosPaciente(email).then(response => {  
+                try{
+                    setPaciente({
+                        nomePaciente: response[0].NOME_PACIENTE
+                    })
+                }catch{
+                    setPaciente({
+                        nomePaciente: ''
+                    })
+                }
+            })
+        
+    }, [])
+    
+    function visualizarGrafico(name){
+        const nome = {
+            "name": `${name}`
+        }
+        
+          dadosProntName(nome)
+          setTimeout(() => {
+            Router.push('/Demo')
+          }, 1100);
+        
+    }
 
 
     const [isOpen, setIsOpen] = useState(false);
@@ -38,6 +69,10 @@ const Menu = (props) => {
 
     function Logout() {
         destroyCookie({}, 'MQtoken')
+        destroyCookie({}, 'email_user')
+        destroyCookie({}, 'tri_3')
+        destroyCookie({}, 'tri_2')
+        destroyCookie({}, 'tri_1')
         Router.push('/login')
     }
 
@@ -73,21 +108,7 @@ const Menu = (props) => {
                     <Collapse isOpen={isOpen} navbar>
                         <Nav className="mr-auto" navbar>
                             <NavItem>
-                                <NavLink href="/historicoProntuarios" className="textcolor">Prontuários</NavLink>
-                            </NavItem>
-                            <NavItem>
-                                <NavLink href="/formularios" className="textcolor">Novo Prontuário</NavLink>
-                            </NavItem>
-                            <NavItem>
-                                <NavLink href="/paciente" className="textcolor">Assistido</NavLink>
-                            </NavItem>
-                            <NavItem>
-                                <NavLink href="/cadastraPaciente" className="textcolor">Cadastrar Assistido</NavLink>
-
-                            </NavItem>
-                            <NavItem>
-                                {/* <NavLink href="/cadastraPaciente" className="textcolor">Cadastrar Paciente</NavLink> */}
-                                {btn}
+                                <NavLink href="#" onClick={() => {visualizarGrafico(paciente.nomePaciente)}} className="textcolor">Acompanhar Progresso</NavLink>
                             </NavItem>
                         </Nav>
                         <Nav>
@@ -103,4 +124,5 @@ const Menu = (props) => {
     );
 }
 
-export default Menu;
+export default MenuResponsavel;
+

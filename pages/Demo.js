@@ -1,5 +1,6 @@
-import { React, useState } from 'react';
+import { React, useState, useContext } from 'react';
 import Menu from "../components/topmenu";
+import MenuResponsavel from '../components/topmenuResp';
 import Smallfooter from "../components/smallfooter";
 import Head from "next/head";
 import Paper from '@material-ui/core/Paper';
@@ -15,11 +16,22 @@ import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, Ca
 import classnames from 'classnames';
 import { dadosProntName } from '../services/funcContextUser';
 import { parseCookies } from 'nookies';
-
+import { AuthContext } from '../contexts/AuthContext';
 
 
 export default function graficoPaciente(props) {
 
+  const { user } = useContext(AuthContext);
+  
+  
+  var type_user = user.tipo_user
+  var topMenuCondicional;
+  if(type_user == 'Administrador' || type_user == 'Funcionario'){
+      topMenuCondicional = <Menu />
+  }else{
+      topMenuCondicional = <MenuResponsavel/>
+  }
+ 
   const data = JSON.parse(props.tri_1)
 
   const data_2_tri = JSON.parse(props.tri_2)
@@ -44,7 +56,7 @@ export default function graficoPaciente(props) {
           BTV
         </title>
       </Head>
-      <Menu />
+      {topMenuCondicional}
       <style>
         {`
               .fundo{

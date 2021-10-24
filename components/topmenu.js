@@ -21,25 +21,45 @@ import { destroyCookie } from 'nookies';
 import { AuthContext } from '../contexts/AuthContext';
 
 const Menu = (props) => {
-    const { user } = useContext(AuthContext);
-    var type_user = user.tipo_user
-    var btn;
-    if(type_user == 'Administrador'){
-        btn = <NavLink href="/gerenciarUsuarios" className="textcolor">Gerenciar Usuários</NavLink>
-    }else{
-        btn = <div></div>
-    }
     
-
-
     const [isOpen, setIsOpen] = useState(false);
 
     const toggle = () => setIsOpen(!isOpen);
 
     function Logout() {
         destroyCookie({}, 'MQtoken')
+        destroyCookie({}, 'email_user')
+        destroyCookie({}, 'tri_3')
+        destroyCookie({}, 'tri_2')
+        destroyCookie({}, 'tri_1')
+        
         Router.push('/login')
     }
+
+    const { user } = useContext(AuthContext);
+    var type_user = user.tipo_user
+    var btn;
+    if(type_user == 'Administrador'){
+        btn = <UncontrolledDropdown nav inNavbar> 
+                <DropdownToggle nav caret className="textcolor" >Gerenciar</DropdownToggle>
+                    <DropdownMenu right>
+                            <DropdownItem>
+                            <NavItem>
+                                    <NavLink href="/NovoUsuarios" className="textcolor">Novo Usuários</NavLink>
+                            </NavItem>
+                        </DropdownItem>
+
+                        <DropdownItem>
+                            <NavItem>
+                                <NavLink href="/gerenciarUsuarios" className="textcolor">Resetar Senha</NavLink>
+                            </NavItem>
+                        </DropdownItem>
+                    </DropdownMenu>
+            </UncontrolledDropdown>
+    }else{
+        btn = <div></div>
+    }
+    
 
     return (
         <div>
@@ -52,7 +72,7 @@ const Menu = (props) => {
                     text-decoration: none !important;
                 }
                 .bkdrop DropdownItem:hover{
-                    color:#c0c0c0;
+                    color:#000;
                 }
                 `}
             </style>
@@ -79,10 +99,10 @@ const Menu = (props) => {
                                 <NavLink href="/formularios" className="textcolor">Novo Prontuário</NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink href="/paciente" className="textcolor">Pacientes</NavLink>
+                                <NavLink href="/paciente" className="textcolor">Assistido</NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink href="/cadastraPaciente" className="textcolor">Cadastrar Paciente</NavLink>
+                                <NavLink href="/cadastraPaciente" className="textcolor">Cadastrar Assistido</NavLink>
 
                             </NavItem>
                             <NavItem>

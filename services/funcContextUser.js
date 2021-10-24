@@ -49,6 +49,33 @@ export async function dadosPront(id_pront) {
 
 }
 
+export async function dadosPaciente(email) {
+
+    const { MQtoken } = parseCookies()
+
+    const body = {
+        email: email
+        }
+
+    try {
+        
+        const resp = await fetch('http://localhost:8080/CreateProntuario/paciente', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${MQtoken}` },
+            body: JSON.stringify(body)
+        }); 
+
+        var data_return = await resp.json();
+
+        return data_return.Query_result
+
+    } catch (err) {
+
+    }
+
+
+}
+
 
 export async function dadosProntName(name) {
 
@@ -64,6 +91,7 @@ export async function dadosProntName(name) {
         var data_return = await res.json();
         
         const obj = data_return.Query_result
+
         try{
             let qtd_Desenvolvidos = returnStrings(JSON.stringify(obj[0])).quantidade_desenvolvidos;
             let qtd_NAO_Desenvolvidos = returnStrings(JSON.stringify(obj[0])).quantidade_nao_desenvolvidos;

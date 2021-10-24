@@ -9,7 +9,7 @@ import { parseCookies } from 'nookies'
 import GetServerSideProps from 'next';
 import { api } from '../services/api';
 import { getAPIClient } from "../services/axios";
-
+import Router from 'next//router';
 
 function criarProntuarios() {
     const [pront, setPront] = useState({
@@ -732,19 +732,19 @@ function criarProntuarios() {
 
 export default criarProntuarios;
 
-// export async function getServerSideProps(ctx) {
-//     const APIClient = getAPIClient(ctx)
-//     const { MQtoken } = parseCookies(ctx)
+export async function getServerSideProps(ctx) {
+    
+    const { MQtoken } = parseCookies(ctx)
 
-//     if (!MQtoken) {
-//         return {
-//             redirect: {
-//                 destination: '/login',
-//                 permanent: false,
-//             }
-//         }
-//     }
-//     return {
-//         props: {}
-//     }
-// }
+    if (!MQtoken) {
+        return {
+            redirect: {
+                destination: '/login',
+                permanent: false,
+            }
+        }
+    }
+    return {
+        props: {}
+    }
+}

@@ -32,7 +32,7 @@ function Cadastrar() {
         email: "",
         fist_name: "",
         last_name: "",
-        especialidade: "-",
+        especialidade: "Responsavel",
         dt_nasc: ""
     });
 
@@ -60,7 +60,7 @@ function Cadastrar() {
             });
 
             const responseEnv = await res.json();
-            console.log(responseEnv)
+            
 
             if (responseEnv.mensagem == "Usuário já cadastrado" || responseEnv.err) {
                 setResponse({

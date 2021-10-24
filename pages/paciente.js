@@ -13,7 +13,7 @@ import Router from 'next//router';
 import { dadosProntName } from "../services/funcContextUser";
 
 
-function Paciente(obj) {
+function Paciente(props) {
   
     const [response, setResponse] = useState({
         formSave: false,
@@ -38,10 +38,24 @@ function Paciente(obj) {
         
     }
     
+    const [busca, setBusca] = useState({
+        search:null
+    })
+    function searchSpace(event){
+        let keyword = event.target.value;
+        setBusca({search:keyword})
+      }
+    
 
-    const dados = obj.obj
+    const dados = props.obj
 
-    const cardsProntuarios = dados.map((obj) =><div className="zoom" key={obj.ID_PACIENTE}>                              
+    const cardsProntuarios = dados.filter((obj)=>{
+        if(busca.search == null)
+            return obj
+        else if(obj.NOME_RESPONSAVEL.toLowerCase().includes(busca.search.toLowerCase()) || obj.EMAIL_RESPONSAVEL.toLowerCase().includes(busca.search.toLowerCase())|| obj.NOME_PACIENTE.toLowerCase().includes(busca.search.toLowerCase())){
+            return obj
+        }
+      }).map((obj) =><div className="zoom" key={obj.ID_PACIENTE}>                              
                 
             <div className="bordinha" >
             <Container>
@@ -51,17 +65,20 @@ function Paciente(obj) {
                             <h5><strong>Responsável:</strong></h5> {obj.NOME_RESPONSAVEL}
                         </label>
                     </Col>
+
+                    <Col key={obj.EMAIL_RESPONSAVEL} className="col-md-3">
+                        <label>
+                            <h5><strong>Email:</strong></h5> {obj.EMAIL_RESPONSAVEL} 
+                        </label>
+                    </Col>
+
                     <Col key={obj.NOME_PACIENTE} className="col-md-3">
                         <label>
-                        <h5><strong>Nome Paciente:</strong></h5> {obj.NOME_PACIENTE}
+                        <h5><strong>Nome Assistido:</strong></h5> {obj.NOME_PACIENTE}
                         </label>
                     </Col>
                     
-                    <Col key={obj.CPF_PACIENTE} className="col-md-3">
-                        <label>
-                            <h5><strong>CPF:</strong></h5> {obj.CPF_PACIENTE} 
-                        </label>
-                    </Col>
+                    
                     <Col key={obj.NOME_PACIENTE} className="col-md-3">
                         <label>
                         <button type="button" onClick={() => {visualizarGrafico(obj.NOME_PACIENTE)}} className="btn btnAnimado" id="btnCriar" >Visualizar Progresso</button>
@@ -190,6 +207,45 @@ function Paciente(obj) {
                     `}
                 </style>
             <Container className="main">
+            <h6>Filtros:</h6>
+                <br/>
+            <Row>
+                    
+                    <Col className="col-md-1">
+                        <FormGroup>
+                            <Label for="username">Responsável:</Label>
+                        </FormGroup>
+                    </Col>
+                    <Col className="col-md-3">
+                        <FormGroup>
+                            <Input className="form-control mr-sm-2" type="text" name="username" id="username" onChange={(e)=> searchSpace(e)} />
+                        </FormGroup>
+                    </Col>
+                    <Col className="col-md-1">
+                        <FormGroup>
+                            <Label for="email">Email:</Label>
+                        </FormGroup>
+                    </Col>
+                    <Col className="col-md-3">
+                        <FormGroup>
+                            <Input className="form-control mr-sm-2" type="text" name="email" id="email" onChange={(e)=> searchSpace(e)} />
+                        </FormGroup>
+                    </Col>
+                    <Col className="col-md-1">
+                        <FormGroup>
+                            <Label for="username">Assistido:</Label>
+                        </FormGroup>
+                    </Col>
+                    <Col className="col-md-3">
+                        <FormGroup>
+                            <Input className="form-control mr-sm-2" type="text" name="assistido" id="assistido" onChange={(e)=> searchSpace(e)} />
+                        </FormGroup>
+                    </Col>
+                    
+                </Row>
+                <hr/>
+                <br/>
+                <br/>
                   {cardsProntuarios}
             </Container>
            
