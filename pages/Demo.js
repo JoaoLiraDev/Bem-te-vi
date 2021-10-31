@@ -109,7 +109,7 @@ export default function graficoPaciente(props) {
                   argumentField="country"
                 />
                 <Title
-                  text="Evolução Paciente"
+                  text="Evolução do Assistido"
                 />
                 <Legend />
                 <EventTracker />
@@ -128,7 +128,7 @@ export default function graficoPaciente(props) {
                   argumentField="country"
                 />
                 <Title
-                  text="Evolução Paciente"
+                  text="Evolução do Assistido"
                 />
                 <Legend />
                 <EventTracker />
@@ -143,7 +143,7 @@ export default function graficoPaciente(props) {
                 data={data_3_tri}
               >
                 <Title
-                  text="Evolução Paciente"
+                  text="Evolução do Assistido"
                 />
                 <Legend />
                 <PieSeries

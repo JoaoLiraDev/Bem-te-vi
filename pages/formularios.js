@@ -183,7 +183,7 @@ function criarProntuarios() {
                     <Row>
                         <Col className="col-md-4">
                             <FormGroup>
-                                <Label for="NOME_PACIENTE">Nome:</Label>
+                                <Label for="NOME_PACIENTE">Nome Assistido:</Label>
                                 <Input type="text" name="NOME_PACIENTE" id="NOME_PACIENTE" placeholder="Nome Completo:" {...register("NOME_PACIENTE", { required: 'Insira um nome' })} onChange={onChangeInput} />
                             </FormGroup>
                         </Col>
@@ -711,8 +711,8 @@ function criarProntuarios() {
                     </Row>
 
                     <FormGroup>
-                        <Label for="RESPONSAVEL">Responsável:</Label>
-                        <Input type="text" name="RESPONSAVEL" id="RESPONSAVEL" placeholder="Responsável:" {...register("RESPONSAVEL", { required: 'Insira uma questão' })} onChange={onChangeInput} />
+                        <Label for="RESPONSAVEL">Doutor(a) Responsável:</Label>
+                        <Input type="text" name="RESPONSAVEL" id="RESPONSAVEL" placeholder="Doutor(a) Responsável:" {...register("RESPONSAVEL", { required: 'Insira uma questão' })} onChange={onChangeInput} />
                     </FormGroup>
                     <FormGroup>
                         <Label for="OBSERVACAO">Observação:</Label>

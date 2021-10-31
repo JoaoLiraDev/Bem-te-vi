@@ -95,7 +95,7 @@ const { 'MQtoken': token } = parseCookies();
             
                 <Row>
                     <Col className="col-md-10">
-                        <Label for="title">Nome do Paciente:</Label>
+                        <Label for="title">Nome do Assistido:</Label>
                         <Input className="form-control mr-sm-2" type="text" name="title" id="title"{...register("title", { required: 'Insira um nome.'})} placeholder="Nome Paciente:" onChange={onChangeInput} />
                     </Col>
                 </Row>
